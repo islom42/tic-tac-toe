@@ -137,7 +137,7 @@ function Game() {
         </div>
       </main>
       <footer className="footer">
-        <p className="text-center text-white text-xl pb-2">Made by <a href="#">Islom Numanov</a></p>
+        <p className="text-center text-white text-xl pb-2">Made by <a href="https://github.com/islomnumanovuz">Islom Numanov</a></p>
       </footer>
     </section>
   )
