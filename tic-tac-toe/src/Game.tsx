@@ -32,6 +32,8 @@ function Game() {
     newScores[currentPlayer] = newPlayerScore;
     setScores(newScores);
 
+    localStorage.setItem("scores", JSON.stringify(newScores));
+
     resetBoard()
   };
 
@@ -42,7 +44,17 @@ function Game() {
 
   };
 
+  useEffect(() => {
+    const storedScores = localStorage.getItem("scores");
+    if (storedScores) {
+      setScores(JSON.parse(storedScores));
+    }
+  }, []);
+
   useEffect(()=> {
+    if (gameState === INITIAL_GAME_STATE) {
+      return;
+    }
     checkForWinner()
   }, [gameState])
 
