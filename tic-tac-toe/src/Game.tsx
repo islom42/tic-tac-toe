@@ -16,12 +16,19 @@ function Game() {
     [2, 4, 6],
   ];
 
+  const resetBoard = () => setGameState(INITIAL_GAME_STATE);
+
   const handleWin = () => {
     window.alert(`Congrats player ${currentPlayer}! You are the winner!`);
+
+    resetBoard()
   };
 
   const handleDraw = () => {
     window.alert("The game ended in a draw");
+    
+    resetBoard()
+
   };
 
   useEffect(()=> {
