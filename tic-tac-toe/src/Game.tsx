@@ -21,9 +21,7 @@ function Game() {
           {
             gameState.map((player, index) => {
              return (
-              <Square key={index}>
-                {player}
-              </Square>
+              <Square key={index} {...{player}} />
              )
             })
           }
