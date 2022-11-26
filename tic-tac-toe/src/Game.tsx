@@ -1,9 +1,32 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Square from "./components/Square/Square";
 
 function Game() {
-  const INITIAL_GAME_STATE = ["X","O","","","","","","","",]
+  const INITIAL_GAME_STATE = ["","","","","","","","","",]
   const [gameState, setGameState] = useState(INITIAL_GAME_STATE)
+  const [currentPlayer, setCurrentPlayer] = useState("X");
+
+  useEffect(()=> {
+    changePlayer()
+  }, [gameState])
+
+  const changePlayer = () => {
+    setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+  };
+
+  const handleCellClick = (e: any) => {
+    const cellIndex = Number(e.target.getAttribute("data-cell-index"));
+
+    const currentValue = gameState[cellIndex];
+    if (currentValue) {
+      return;
+    }
+
+    const newValues = [...gameState];
+    newValues[cellIndex] = currentPlayer;
+    setGameState(newValues);
+  }
+
   return (
     <section className="min-h-screen flex flex-col w-4/5 m-auto">
       <header className="header">
@@ -21,7 +44,7 @@ function Game() {
           {
             gameState.map((player, index) => {
              return (
-              <Square key={index} {...{player}} />
+              <Square key={index} onClick={handleCellClick} {...{index, player}} />
              )
             })
           }
