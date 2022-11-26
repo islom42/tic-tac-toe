@@ -1,10 +1,12 @@
 import {useState, useEffect} from "react";
 import Square from "./components/Square/Square";
 
-function Game() {
+type Scores = {
+  [key: string]: number;
+}
+
   const INITIAL_GAME_STATE = ["","","","","","","","","",]
-  const [gameState, setGameState] = useState(INITIAL_GAME_STATE)
-  const [currentPlayer, setCurrentPlayer] = useState("X");
+  const INITIAL_SCORES: Scores = { X: 0, O: 0 };
   const WINNING_COMBOS = [
     [0, 1, 2],
     [3, 4, 5],
@@ -15,18 +17,27 @@ function Game() {
     [0, 4, 8],
     [2, 4, 6],
   ];
+function Game() {
+  const [gameState, setGameState] = useState(INITIAL_GAME_STATE)
+  const [currentPlayer, setCurrentPlayer] = useState("X");
+  const [scores, setScores] = useState(INITIAL_SCORES)
 
   const resetBoard = () => setGameState(INITIAL_GAME_STATE);
 
   const handleWin = () => {
     window.alert(`Congrats player ${currentPlayer}! You are the winner!`);
 
+    const newPlayerScore = scores[currentPlayer] + 1;
+    const newScores = { ...scores };
+    newScores[currentPlayer] = newPlayerScore;
+    setScores(newScores);
+
     resetBoard()
   };
 
   const handleDraw = () => {
     window.alert("The game ended in a draw");
-    
+
     resetBoard()
 
   };
@@ -88,16 +99,21 @@ function Game() {
   return (
     <section className="min-h-screen flex flex-col w-4/5 m-auto">
       <header className="header">
-        <nav className="text-center text-3xl">
-          Hey I'm navbar
-        </nav>
-        <ul className="flex justify-evenly ">
-          <li>Board goes here</li>
-          <li>Score goes here</li>
+        <ul className="flex justify-between items-center text-2xl text-serif ">
+          <li className="text-white mt-2">
+            Next Player: <span>{currentPlayer}</span>
+          </li>
+          <li>
+            <p className="text-white">
+              Player X wins: <span>{scores["X"]}</span>
+            </p>
+            <p className="text-white">
+              Player O wins: <span>{scores["O"]}</span>
+            </p>
+          </li>
         </ul>
       </header>
       <main className="main flex-auto p-8 text-slate-800">
-        <h1 className="text-center text-6xl">Hello</h1>
         <div className="grid grid-cols-3 gap-3 mx-auto w-96">
           {
             gameState.map((player, index) => {
@@ -109,7 +125,7 @@ function Game() {
         </div>
       </main>
       <footer className="footer">
-        <p className="text-center">Made by Islom Numanov</p>
+        <p className="text-center text-white text-xl pb-2">Made by <a href="#">Islom Numanov</a></p>
       </footer>
     </section>
   )
